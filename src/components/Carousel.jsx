@@ -109,7 +109,7 @@ const CarouselComponent = () => {
 
   return (
     <>
-      <section className="p-8">
+      <section>
         <div className="relative w-full">
           {/* Carousel Container */}
           <div
