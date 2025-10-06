@@ -1,4 +1,26 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Data Submitted: ", formData);
+  };
+
   return (
     <main className="bg-normal min-h-screen flex items-center justify-center">
       <div className="flex flex-col rounded-lg p-8 w-full max-w-md shadow-darker shadow-xl gap-4">
@@ -10,39 +32,47 @@ const Login = () => {
           Bienvenido de nuevo! Por favor, ingresa tus credenciales.
         </h4>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
-            <input
+            <Input
               type="email"
-              id="email"
-              className="w-full p-2.5 border border-gray-800 text-white rounded-t-lg "
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Correo Electrónico"
+              className="rounded-t-lg"
+              required
             />
           </div>
           <div>
-            <input
+            <Input
               type="password"
-              id="password"
-              className="w-full p-2.5 border border-gray-800 text-white rounded-b-lg "
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Contraseña"
+              className="rounded-b-lg"
+              required
             />
           </div>
+          <Link
+            to="/forgot-password"
+            className="flex justify-self-end my-3 text-blue-500 hover:underline text-sm ml-auto"
+          >
+            ¿Olvidaste tu contraseña?
+          </Link>
+          <Button
+            type="submit"
+            disabled={!formData.email || !formData.password}
+          >
+            Iniciar Sesión
+          </Button>
         </form>
-
-        <a
-          href="/forgot-password"
-          className="flex justify-self-end text-blue-500 hover:underline text-sm ml-auto"
-        >
-          ¿Olvidaste tu contraseña?
-        </a>
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-300">
-          Iniciar Sesión
-        </button>
         <p className="text-white text-center">
           ¿No tienes una cuenta?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
+          <Link to="/register" className="text-blue-500 hover:underline">
             Regístrate
-          </a>
+          </Link>
         </p>
       </div>
     </main>
