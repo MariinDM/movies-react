@@ -114,7 +114,7 @@ const CarouselComponent = () => {
           {/* Carousel Container */}
           <div
             ref={containerRef}
-            className="relative h-[400px] md:h-[600px] overflow-hidden rounded-lg cursor-grab active:cursor-grabbing select-none"
+            className="relative h-[300px] md:h-[500px] overflow-hidden rounded-lg cursor-grab active:cursor-grabbing select-none"
             onMouseDown={handleDragStart}
             onMouseMove={handleDragMove}
             onMouseUp={handleDragEnd}
