@@ -3,7 +3,7 @@ import { Clapperboard } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="sticky top-0 z-50 bg-normal p-4">
+    <nav className="sticky top-0 z-50 bg-normal p-4 border-b border-gray-700">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Clapperboard color="white" size={24} />
@@ -26,9 +26,9 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <button className="bg-light text-white px-4 py-2 rounded">
+        <Link to="/login" className="bg-light text-white px-4 py-2 rounded">
           Iniciar Sesión
-        </button>
+        </Link>
       </div>
     </nav>
   );
