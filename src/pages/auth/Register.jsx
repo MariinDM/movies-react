@@ -2,15 +2,21 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import authService from "../../services/auth-service";
+import { useAuth } from "../../context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
     username: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,10 +25,26 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted: ", formData);
-    navigate("/login");
+    setError("");
+    setLoading(true);
+
+    try {
+      const payload = await authService.register(formData);
+      const access_token = payload.data.access_token;
+
+      if (access_token) {
+        // Usa el login del contexto para actualizar el estado global
+        login(access_token, payload.data.user);
+      }
+
+      navigate("/");
+    } catch (error) {
+      setError(error.message || "Error al registrarse");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,6 +56,13 @@ const Register = () => {
         <h4 className="text-white text-center">
           Crea una cuenta para disfrutar de todas las funcionalidades.
         </h4>
+
+        {error && (
+          <div className="bg-red-500 text-white p-3 rounded text-sm">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div>
             <Input
@@ -72,10 +101,13 @@ const Register = () => {
             type="submit"
             className="mt-4"
             disabled={
-              !formData.email || !formData.username || !formData.password
+              !formData.email ||
+              !formData.username ||
+              !formData.password ||
+              loading
             }
           >
-            Regístrate
+            {loading ? "Cargando..." : "Regístrate"}
           </Button>
         </form>
         <p className="text-white text-center">

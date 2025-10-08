@@ -10,7 +10,7 @@ const authService = {
   },
 
   logout: () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("access_token");
   },
 };
 

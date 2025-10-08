@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import authService from "../../services/auth-service";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -28,10 +30,12 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const data = await authService.login(formData);
+      const payload = await authService.login(formData);
+      const access_token = payload.data.access_token;
 
-      if (data.access_token) {
-        localStorage.setItem("token", data.access_token);
+      if (access_token) {
+        // Usa el login del contexto para actualizar el estado global
+        login(access_token, payload.data.user);
       }
 
       navigate("/");
