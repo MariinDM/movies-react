@@ -1,4 +1,3 @@
-import React from "react";
 import CarouselComponent from "../../components/Carousel";
 
 const Home = () => {

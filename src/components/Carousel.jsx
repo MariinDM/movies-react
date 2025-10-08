@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import movieService from "../services/movie-service";
 
 const CarouselComponent = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -6,9 +7,11 @@ const CarouselComponent = () => {
   const [startPos, setStartPos] = useState(0);
   const [currentTranslate, setCurrentTranslate] = useState(0);
   const [prevTranslate, setPrevTranslate] = useState(0);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
   const containerRef = useRef(null);
 
-  const movies = [
+  const defaultMovies = [
     {
       id: 1,
       title: "The Shawshank Redemption",
@@ -61,8 +64,31 @@ const CarouselComponent = () => {
     },
   ];
 
+  const fetchMovies = async () => {
+    try {
+      setLoading(true);
+      const payload = await movieService.getTopRatedMovies();
+      const data = payload.data;
+
+      if (data && data.length > 0) {
+        setMovies(data);
+      } else {
+        setMovies(defaultMovies);
+      }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      setMovies(defaultMovies);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    if (isDragging) return;
+    fetchMovies();
+  }, []);
+
+  useEffect(() => {
+    if (isDragging || movies.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
@@ -106,6 +132,14 @@ const CarouselComponent = () => {
     setCurrentTranslate(0);
     setPrevTranslate(0);
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[300px] md:h-[500px]">
+        <div className="text-white text-xl">Cargando películas...</div>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import authService from "../../services/auth-service";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +12,9 @@ const Login = () => {
     password: "",
   });
 
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,10 +22,24 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted: ", formData);
-    navigate("/");
+    setError("");
+    setLoading(true);
+
+    try {
+      const data = await authService.login(formData);
+
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+      }
+
+      navigate("/");
+    } catch (error) {
+      setError(error.message || "Error al iniciar sesión");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,6 +52,12 @@ const Login = () => {
         <h4 className="text-white text-center">
           Bienvenido de nuevo! Por favor, ingresa tus credenciales.
         </h4>
+
+        {error && (
+          <div className="bg-red-500 text-white p-3 rounded text-sm">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div>
@@ -66,9 +90,9 @@ const Login = () => {
           </Link>
           <Button
             type="submit"
-            disabled={!formData.email || !formData.password}
+            disabled={!formData.email || !formData.password || loading}
           >
-            Iniciar Sesión
+            {loading ? "Cargando..." : "Iniciar Sesión"}
           </Button>
         </form>
         <p className="text-white text-center">
