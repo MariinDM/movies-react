@@ -34,13 +34,12 @@ const Register = () => {
 
     try {
       const payload = await authService.register(formData);
-      const access_token = payload.data.access_token;
+      const { data } = payload;
+      const { access_token, user } = data;
 
       if (access_token) {
-        // Usa el login del contexto para actualizar el estado global
-        login(access_token, payload.data.user);
+        login(access_token, user);
       }
-
       navigate("/");
     } catch (error) {
       setError(error.message || "Error al registrarse");
@@ -66,39 +65,33 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit}>
-          <div>
-            <Input
-              type="email"
-              name="email"
-              placeholder="Correo Electrónico"
-              className="rounded-t-lg"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <Input
-              type="text"
-              name="username"
-              placeholder="Usuario"
-              className="rounded-none"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <Input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              className="rounded-b-lg"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <Input
+            type="email"
+            name="email"
+            placeholder="Correo Electrónico"
+            className="rounded-t-lg"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            type="text"
+            name="username"
+            placeholder="Usuario"
+            className="rounded-none"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            className="rounded-b-lg"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
           <Button
             type="submit"
             className="mt-4"

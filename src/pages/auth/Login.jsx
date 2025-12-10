@@ -33,13 +33,12 @@ const Login = () => {
 
     try {
       const payload = await authService.login(formData);
-      const access_token = payload.data.access_token;
+      const { data } = payload;
+      const { access_token, user } = data;
 
       if (access_token) {
-        // Usa el login del contexto para actualizar el estado global
-        login(access_token, payload.data.user);
+        login(access_token, user);
       }
-
       navigate("/");
     } catch (error) {
       setError(error.message || "Error al iniciar sesión");
@@ -66,28 +65,24 @@ const Login = () => {
         )}
 
         <form onSubmit={handleSubmit}>
-          <div>
-            <Input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Correo Electrónico"
-              className="rounded-t-lg"
-              required
-            />
-          </div>
-          <div>
-            <Input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Contraseña"
-              className="rounded-b-lg"
-              required
-            />
-          </div>
+          <Input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Correo Electrónico"
+            className="rounded-t-lg"
+            required
+          />
+          <Input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Contraseña"
+            className="rounded-b-lg"
+            required
+          />
           <Link
             to="/forgot-password"
             className="flex justify-self-end my-3 text-blue-500 hover:underline text-sm ml-auto"

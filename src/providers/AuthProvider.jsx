@@ -7,11 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verifica si hay un token al cargar la aplicación
     const token = localStorage.getItem("access_token");
     if (token) {
       setIsAuthenticated(true);
-      // Aquí podrías obtener los datos del usuario si tu API lo permite
     }
     setLoading(false);
   }, []);
