@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "@hooks/useAuth";
 
 const DropDown = ({ items, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);

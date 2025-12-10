@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import movieService from "../services/movie-service";
+import movieService from "@services/movie-service";
 
 const CarouselComponent = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
