@@ -14,6 +14,12 @@ const Navbar = () => {
     return null; // o un loader
   }
 
+  const routes = [
+    { name: "Inicio", path: "/" },
+    { name: "Acerca de", path: "/about" },
+    { name: "Contacto", path: "/contact" },
+  ];
+
   return (
     <nav className="sticky top-0 z-50 bg-normal p-4 border-b border-gray-700">
       <div className="flex items-center justify-between">
@@ -22,21 +28,13 @@ const Navbar = () => {
           <h2 className="text-white">Marin</h2>
         </div>
         <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="text-white hover:text-gray-300">
-              Inicio
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className="text-white hover:text-gray-300">
-              Acerca de
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="text-white hover:text-gray-300">
-              Contacto
-            </Link>
-          </li>
+          {routes.map((route) => (
+            <li key={route.name}>
+              <Link to={route.path} className="text-white hover:text-gray-300">
+                {route.name}
+              </Link>
+            </li>
+          ))}
         </ul>
         {isAuthenticated ? (
           <DropDown
