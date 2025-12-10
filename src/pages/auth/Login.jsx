@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import authService from "../../services/auth-service";
-import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();

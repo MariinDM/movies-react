@@ -1,8 +1,7 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Clapperboard } from "lucide-react";
 import DropDown from "./DropDown";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 const Navbar = () => {
   const { isAuthenticated, loading } = useAuth();
