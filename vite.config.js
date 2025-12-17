@@ -18,6 +18,7 @@ export default defineConfig({
       '@providers': path.resolve(__dirname, './src/providers'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      '@reducers': path.resolve(__dirname, './src/reducers'),
     },
   },
 })

@@ -9,7 +9,8 @@
       "@context/*": ["src/context/*"],
       "@providers/*": ["src/providers/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@reducers/*": ["src/reducers/*"]
     }
   },
   "include": ["src"]
